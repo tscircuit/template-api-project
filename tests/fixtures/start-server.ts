@@ -11,7 +11,10 @@ import { Client } from "pg"
 import { getConnectionStringFromEnv } from "pg-connection-from-env"
 import { migrate } from "pgstrap"
 
-export const startServer = async ({ port }: { port: number }) => {
+export const startServer = async ({
+  port,
+  testDbName,
+}: { port: number; testDbName: string }) => {
   const client = new Client({
     connectionString: getConnectionStringFromEnv({
       database: "postgres",
@@ -19,14 +22,15 @@ export const startServer = async ({ port }: { port: number }) => {
   })
   await client.connect()
 
-  const dbName = `testdb${Math.random().toString(36).substring(2, 15)}`
+  await client.query(`CREATE DATABASE ${testDbName}`)
+  await client.end()
 
   const testDbUrl = getConnectionStringFromEnv({
-    database: dbName,
+    database: testDbName,
   })
 
   await migrate({
-    defaultDatabase: testDbUrl,
+    defaultDatabase: testDbName,
     migrationsDir: join(import.meta.dir, "../../lib/db/migrations"),
     cwd: process.cwd(),
     schemas: ["public"],
