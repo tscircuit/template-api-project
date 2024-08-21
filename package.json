@@ -1,0 +1,25 @@
+{
+  "name": "debug-api",
+  "module": "index.ts",
+  "type": "module",
+  "devDependencies": {
+    "@biomejs/biome": "^1.8.3",
+    "@types/bun": "latest",
+    "pgstrap": "1.0.2",
+    "redaxios": "^0.5.1"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "pgstrap": "^1.0.2",
+    "winterspec": "^0.0.86"
+  },
+  "scripts": {
+    "dev": "winterspec dev",
+    "db:migrate": "pgstrap migrate",
+    "db:reset": "pgstrap reset",
+    "db:generate": "pgstrap generate",
+    "db:create-migration": "pgstrap create-migration"
+  }
+}
