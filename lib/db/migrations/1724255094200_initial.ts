@@ -31,7 +31,7 @@ export async function up(pgm: MigrationBuilder): Promise<void> {
     soup_group_id: {
       type: "uuid",
       notNull: true,
-      references: "soup_group.soup_group_id",
+      references: "soup_group",
     },
     soup_name: {
       type: "text",
