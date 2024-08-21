@@ -4,17 +4,36 @@ import {
 } from "winterspec/adapters/node"
 import { Request as EdgeRuntimeRequest } from "@edge-runtime/primitives"
 import { join } from "node:path"
-import { ZodLevelDatabase } from "api/db/zod-level-db"
 import os from "node:os"
 import type { Middleware } from "winterspec"
 import { getDbClient } from "lib/db/get-db-client"
+import { Client } from "pg"
+import { getConnectionStringFromEnv } from "pg-connection-from-env"
+import { migrate } from "pgstrap"
 
 export const startServer = async ({ port }: { port: number }) => {
-  const dbName = `test${Math.random().toString(36).substring(2, 15)}`
-  // 1. CREATE DATABASE
-  // 2. Migrate a database
+  const client = new Client({
+    connectionString: getConnectionStringFromEnv({
+      database: "postgres",
+    }),
+  })
+  await client.connect()
+
+  const dbName = `testdb${Math.random().toString(36).substring(2, 15)}`
+
+  const testDbUrl = getConnectionStringFromEnv({
+    database: dbName,
+  })
+
+  await migrate({
+    defaultDatabase: testDbUrl,
+    migrationsDir: join(import.meta.dir, "../../lib/db/migrations"),
+    cwd: process.cwd(),
+    schemas: ["public"],
+  })
+
   // 3. Create a kysely instance
-  const db = getDbClient()
+  const db = getDbClient(testDbUrl)
 
   const winterspecBundle = await createWinterSpecBundleFromDir(
     join(import.meta.dir, "../../routes"),
