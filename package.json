@@ -5,6 +5,8 @@
   "devDependencies": {
     "@biomejs/biome": "^1.8.3",
     "@types/bun": "latest",
+    "@types/react": "18.3.4",
+    "next": "^14.2.5",
     "pgstrap": "1.0.2",
     "redaxios": "^0.5.1"
   },
@@ -16,7 +18,10 @@
     "winterspec": "^0.0.86"
   },
   "scripts": {
+    "start": "bun run dev",
     "dev": "winterspec dev",
+    "build": "winterspec bundle -o dist/bundle.js",
+    "next:dev": "next dev",
     "db:migrate": "pgstrap migrate",
     "db:reset": "pgstrap reset",
     "db:generate": "pgstrap generate",
