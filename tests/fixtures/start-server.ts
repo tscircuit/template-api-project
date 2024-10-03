@@ -20,7 +20,14 @@ export const startServer = async ({
       database: "postgres",
     }),
   })
-  await client.connect()
+  try {
+    await client.connect()
+  } catch (e) {
+    console.log("Error connecting to postgres")
+    throw new Error(
+      "Couldn't connect to postgres, make sure you're running postgres in the background with auth_mode=trust. You can run 'docker run -p 5432:5432 -e POSTGRES_HOST_AUTH_METHOD=trust postgres:16'",
+    )
+  }
 
   await client.query(`CREATE DATABASE ${testDbName}`)
   await client.end()
