@@ -1,12 +1,12 @@
 import { afterEach } from "bun:test"
 import { tmpdir } from "node:os"
-import defaultAxios from "redaxios"
+import defaultKy from "ky"
 import { startServer } from "./start-server"
 
 interface TestFixture {
   url: string
   server: any
-  axios: typeof defaultAxios
+  ky: typeof defaultKy
 }
 
 export const getTestServer = async (): Promise<TestFixture> => {
@@ -14,24 +14,23 @@ export const getTestServer = async (): Promise<TestFixture> => {
   const testInstanceId = Math.random().toString(36).substring(2, 15)
   const testDbName = `testdb${testInstanceId}`
 
-  const server = await startServer({
+  const { server, dbClient } = await startServer({
     port,
     testDbName,
   })
 
   const url = `http://127.0.0.1:${port}`
-  const axios = defaultAxios.create({
-    baseURL: url,
+  const ky = defaultKy.create({
+    prefixUrl: url,
   })
 
   afterEach(async () => {
     await server.stop()
-    // Here you might want to add logic to drop the test database
   })
 
   return {
     url,
     server,
-    axios,
+    ky,
   }
 }

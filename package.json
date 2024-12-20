@@ -4,18 +4,18 @@
   "type": "module",
   "devDependencies": {
     "@biomejs/biome": "^1.8.3",
-    "@electric-sql/pglite": "^0.2.15",
+    "@electric-sql/pglite": "0.2.14",
     "@types/bun": "latest",
     "@types/react": "18.3.4",
     "kysely-pglite": "^0.6.1",
     "next": "^14.2.5",
-    "pgstrap": "1.0.5",
-    "redaxios": "^0.5.1"
+    "pgstrap": "1.0.5"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
   },
   "dependencies": {
+    "ky": "^1.7.4",
     "pg-connection-from-env": "^1.1.0",
     "winterspec": "^0.0.99"
   },
@@ -24,9 +24,12 @@
     "dev": "winterspec dev",
     "build": "winterspec bundle -o dist/bundle.js",
     "next:dev": "next dev",
+    "start:fly": "bun scripts/start-server-with-worker.ts",
     "db:migrate": "pgstrap migrate",
     "db:reset": "pgstrap reset",
     "db:generate": "pgstrap generate",
-    "db:create-migration": "pgstrap create-migration"
+    "db:create-migration": "pgstrap create-migration",
+    "format": "biome format --write .",
+    "format:check": "biome format ."
   }
 }
