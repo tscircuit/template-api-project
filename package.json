@@ -27,6 +27,8 @@
     "db:migrate": "pgstrap migrate",
     "db:reset": "pgstrap reset",
     "db:generate": "pgstrap generate",
-    "db:create-migration": "pgstrap create-migration"
+    "db:create-migration": "pgstrap create-migration",
+    "format": "biome format --write .",
+    "format:check": "biome format ."
   }
 }
