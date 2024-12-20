@@ -22,7 +22,7 @@ export const startServer = async ({
   const { db, client } = await getTestDatabase({})
 
   const winterspecBundle = await createWinterSpecBundleFromDir(
-    join(import.meta.dir, "../../routes")
+    join(import.meta.dir, "../../routes"),
   )
 
   const middleware: Middleware[] = [

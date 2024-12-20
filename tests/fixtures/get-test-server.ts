@@ -25,7 +25,6 @@ export const getTestServer = async (): Promise<TestFixture> => {
   })
 
   afterEach(async () => {
-    await dbClient.close()
     await server.stop()
   })
 
