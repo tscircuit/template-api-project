@@ -42,7 +42,7 @@ export class ApiServer {
 
   async init() {
     this.winterspecBundle = await createWinterSpecBundleFromDir(
-      join(import.meta.dir, "../../routes")
+      join(import.meta.dir, "../../routes"),
     )
 
     // Database connection check
@@ -85,7 +85,7 @@ export class ApiServer {
             {
               status: is_worker_healthy ? 200 : 503,
               headers: { "Content-Type": "application/json" },
-            }
+            },
           )
         }
         return next(req, ctx)
