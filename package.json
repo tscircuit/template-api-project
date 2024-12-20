@@ -4,7 +4,7 @@
   "type": "module",
   "devDependencies": {
     "@biomejs/biome": "^1.8.3",
-    "@electric-sql/pglite": "^0.2.15",
+    "@electric-sql/pglite": "0.2.14",
     "@types/bun": "latest",
     "@types/react": "18.3.4",
     "kysely-pglite": "^0.6.1",
