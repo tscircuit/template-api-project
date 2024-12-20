@@ -16,15 +16,14 @@ export const getTestDatabase = async (opts: { testDbName?: string } = {}) => {
 
   if (!globalThis.pgliteMutex) {
     globalThis.pgliteMutex = new Mutex()
-    globalThis.pgliteInstance = await KyselyPGlite.create({
-      debug: 1,
-    })
+    globalThis.pgliteInstance = await KyselyPGlite.create()
   }
   await globalThis.pgliteMutex.lock()
 
   const { dialect, client } = globalThis.pgliteInstance
 
   afterEach(async () => {
+    await new Promise((resolve) => setTimeout(resolve, 10))
     await client.close()
     globalThis.pgliteMutex.release()
   })
