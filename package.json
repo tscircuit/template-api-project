@@ -4,10 +4,12 @@
   "type": "module",
   "devDependencies": {
     "@biomejs/biome": "^1.8.3",
+    "@electric-sql/pglite": "^0.2.15",
     "@types/bun": "latest",
     "@types/react": "18.3.4",
+    "kysely-pglite": "^0.6.1",
     "next": "^14.2.5",
-    "pgstrap": "1.0.2",
+    "pgstrap": "1.0.5",
     "redaxios": "^0.5.1"
   },
   "peerDependencies": {
@@ -15,7 +17,7 @@
   },
   "dependencies": {
     "pg-connection-from-env": "^1.1.0",
-    "winterspec": "^0.0.86"
+    "winterspec": "^0.0.99"
   },
   "scripts": {
     "start": "bun run dev",

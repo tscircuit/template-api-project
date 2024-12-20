@@ -10,44 +10,19 @@ import { getDbClient } from "lib/db/get-db-client"
 import { Client } from "pg"
 import { getConnectionStringFromEnv } from "pg-connection-from-env"
 import { migrate } from "pgstrap"
+import { getTestDatabase } from "./get-test-database"
 
 export const startServer = async ({
   port,
   testDbName,
-}: { port: number; testDbName: string }) => {
-  const client = new Client({
-    connectionString: getConnectionStringFromEnv({
-      database: "postgres",
-    }),
-  })
-  try {
-    await client.connect()
-  } catch (e) {
-    console.log("Error connecting to postgres")
-    throw new Error(
-      "Couldn't connect to postgres, make sure you're running postgres in the background with auth_mode=trust. You can run 'docker run -p 5432:5432 -e POSTGRES_HOST_AUTH_METHOD=trust postgres:16'",
-    )
-  }
-
-  await client.query(`CREATE DATABASE ${testDbName}`)
-  await client.end()
-
-  const testDbUrl = getConnectionStringFromEnv({
-    database: testDbName,
-  })
-
-  await migrate({
-    defaultDatabase: testDbName,
-    migrationsDir: join(import.meta.dir, "../../lib/db/migrations"),
-    cwd: process.cwd(),
-    schemas: ["public"],
-  })
-
-  // 3. Create a kysely instance
-  const db = getDbClient(testDbUrl)
+}: {
+  port: number
+  testDbName: string
+}) => {
+  const { db } = await getTestDatabase({})
 
   const winterspecBundle = await createWinterSpecBundleFromDir(
-    join(import.meta.dir, "../../routes"),
+    join(import.meta.dir, "../../routes")
   )
 
   const middleware: Middleware[] = [
