@@ -23,7 +23,7 @@ export const getTestDatabase = async (opts: { testDbName?: string } = {}) => {
   const { dialect, client } = globalThis.pgliteInstance
 
   afterEach(async () => {
-    // await client.close()
+    await client.close()
     globalThis.pgliteMutex.release()
   })
 
