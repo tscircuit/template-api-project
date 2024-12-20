@@ -16,7 +16,9 @@ export const getTestDatabase = async (opts: { testDbName?: string } = {}) => {
 
   if (!globalThis.pgliteMutex) {
     globalThis.pgliteMutex = new Mutex()
-    globalThis.pgliteInstance = await KyselyPGlite.create()
+    globalThis.pgliteInstance = await KyselyPGlite.create({
+      debug: 1,
+    })
   }
   await globalThis.pgliteMutex.lock()
 
