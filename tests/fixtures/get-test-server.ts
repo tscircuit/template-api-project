@@ -14,7 +14,7 @@ export const getTestServer = async (): Promise<TestFixture> => {
   const testInstanceId = Math.random().toString(36).substring(2, 15)
   const testDbName = `testdb${testInstanceId}`
 
-  const server = await startServer({
+  const { server, dbClient } = await startServer({
     port,
     testDbName,
   })
@@ -25,8 +25,8 @@ export const getTestServer = async (): Promise<TestFixture> => {
   })
 
   afterEach(async () => {
+    await dbClient.close()
     await server.stop()
-    // Here you might want to add logic to drop the test database
   })
 
   return {
