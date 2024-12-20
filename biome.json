@@ -33,6 +33,7 @@
       },
       "style": {
         "noNonNullAssertion": "off",
+        "useImportType": "off",
         "useFilenamingConvention": {
           "level": "error",
           "options": {
